@@ -7,6 +7,7 @@ package tetris;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -19,17 +20,17 @@ public class gameController extends JPanel {
     public gameView gameview;
 
     public gameController() {
-        
+
     }
-    
-    public void connectView(gameView v) { 
+
+    public void connectView(gameView v) {
         gameview = v;
     }
-    
+
     public void connectModel(gameModel m) {
         gamemodel = m;
     }
-    
+
     public void userHasInput() {
 
     }
@@ -37,7 +38,8 @@ public class gameController extends JPanel {
     public void start() {
         // Listener code
         // using Fframe Listener
-        gameview.f.addKeyListener(new KeyListener() {
+
+        gameview.frame.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
             }
 
@@ -66,7 +68,6 @@ public class gameController extends JPanel {
             public void keyReleased(KeyEvent e) {
             }
         });  // Listener end
-
         new Thread() {
             @Override
             public void run() {

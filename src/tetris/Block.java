@@ -23,10 +23,10 @@ public class Block {
     private int rotate;
     private Point[][] shape;
     private Color color;
-    private final Color[] blockColors = {
+    private Color[] blockColors = {
         Color.cyan, Color.blue, Color.orange, Color.yellow, Color.green, Color.pink, Color.red
     };
-    private final Point[][][] Tetraminos = {
+    private final Point[][][] pieceArray = {
         // I-Piece
         {
             {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)},
@@ -82,7 +82,7 @@ public class Block {
         this.type = type;
         rotate = 0;
         color = blockColors[type];
-        shape = this.Tetraminos[this.type];
+        shape = this.pieceArray[this.type];
     }
 
     public int getType() {
@@ -102,5 +102,9 @@ public class Block {
     }
     public void setRotate(int dir) {
         rotate = dir;
+    }
+    
+    public void setColors(Color[] color) {
+        blockColors = color;
     }
 }

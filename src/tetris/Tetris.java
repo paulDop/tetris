@@ -17,11 +17,11 @@ public class Tetris {
 
         //create Model and View
         gameModel myModel = new gameModel();
-        gameView myView = new gameView();
+        gameView myView = new B10332020();
 
         //tell Model about View. 
         myModel.connectView(myView);	
-
+        myModel.init();
         //create Controller. tell it about Model and View, initialise model
         gameController myController = new gameController();
         myController.connectModel(myModel);

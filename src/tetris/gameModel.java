@@ -20,13 +20,16 @@ public class gameModel {
     private Block nowBlock;
     private Block nextBlock;
     private Point NowPiecePoint = new Point(5, 2);
-    private Color[][] well = new Color[12][24];
-    private boolean first = true; 
-    private int blockContainer[][] = new int[10][20];
+    private Color[][] blockContainer = new Color[12][24];
+    private Color background;
+    private Color wall;
+    private boolean first = true;
     private gameView gameview;
 
     public void connectView(gameView v) {
         gameview = v;
+        background = gameview.getBackgroundColor();
+        wall = gameview.getWallColor();
     }
 
     public Block getNowBlock() {
@@ -43,10 +46,6 @@ public class gameModel {
 
     public int getScore() {
         return score;
-    }
-
-    public int[][] getConatainer() {
-        return blockContainer;
     }
 
     private void createNextBlock(int num) {
@@ -67,7 +66,7 @@ public class gameModel {
     private boolean collidesAt(int x, int y, int rotate) {
         Point[][] shape = nowBlock.getShape();
         for (Point p : shape[rotate]) {
-            if (well[p.x + x][p.y + y] != Color.BLACK) {
+            if (blockContainer[p.x + x][p.y + y] != background) {
                 return true;
             }
         }
@@ -77,7 +76,7 @@ public class gameModel {
     public void fixToWell() {
         Point[][] shape = nowBlock.getShape();
         for (Point p : shape[nowBlock.getRotate()]) {
-            well[NowPiecePoint.x + p.x][NowPiecePoint.y + p.y] = nowBlock.getColor();
+            blockContainer[NowPiecePoint.x + p.x][NowPiecePoint.y + p.y] = nowBlock.getColor();
         }
         clearRows();
         newPieces();
@@ -91,7 +90,7 @@ public class gameModel {
         for (int j = 21; j > 0; j--) {
             gap = false;
             for (int i = 1; i < 11; i++) {
-                if (well[i][j] == Color.BLACK) {
+                if (blockContainer[i][j] == background) {
                     gap = true;
                     break;
                 }
@@ -122,7 +121,7 @@ public class gameModel {
     public void deleteRow(int row) {
         for (int j = row - 1; j > 0; j--) {
             for (int i = 1; i < 11; i++) {
-                well[i][j + 1] = well[i][j];
+                blockContainer[i][j + 1] = blockContainer[i][j];
             }
         }
     }
@@ -171,27 +170,25 @@ public class gameModel {
     }
 
     public void init() {
-        well = new Color[12][24];
+        blockContainer = new Color[12][24];
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 23; j++) {
                 if (i == 0 || i == 11 || j == 22) {
-                    well[i][j] = Color.GRAY;
+                    blockContainer[i][j] = wall;
                 } else {
-                    well[i][j] = Color.BLACK;
+                    blockContainer[i][j] = background;
                 }
             }
         }
     }
 
-    public Color[][] getWell() {
-        return well;
+    public Color[][] getContainer() {
+        return blockContainer;
     }
 
     public gameModel() {
-        //createNowBlock();
-        //createNextBlock();
+        // initial pieces
         newPieces();
-        init();
     }
 
 }
