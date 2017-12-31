@@ -21,7 +21,7 @@ public class Tetris {
 
         //tell Model about View. 
         myModel.connectView(myView);	
-
+        myModel.init();
         //create Controller. tell it about Model and View, initialise model
         gameController myController = new gameController();
         myController.connectModel(myModel);

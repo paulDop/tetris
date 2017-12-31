@@ -7,6 +7,7 @@ package tetris;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -17,6 +18,7 @@ public class gameController extends JPanel {
 
     public gameModel gamemodel;
     public gameView gameview;
+    public JFrame f = new JFrame("Listener");;
 
     public gameController() {
         
