@@ -19,17 +19,24 @@ public class gameController extends JPanel {
     public gameView gameview;
 
     public gameController() {
-        gamemodel = new gameModel();
-        gameview = new gameView();
-        //gameview.init();
+        
     }
-
+    
+    public void connectView(gameView v) { 
+        gameview = v;
+    }
+    
+    public void connectModel(gameModel m) {
+        gamemodel = m;
+    }
+    
     public void userHasInput() {
 
     }
 
     public void start() {
-
+        // Listener code
+        // using Fframe Listener
         gameview.f.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
             }
@@ -39,8 +46,9 @@ public class gameController extends JPanel {
                     case KeyEvent.VK_UP:
                         gamemodel.turnNowBlock(-1);
                         break;
+                    // softdrop can be used for speed up
                     case KeyEvent.VK_DOWN:
-                        gamemodel.turnNowBlock(+1);
+                        gamemodel.dropNowBlock();
                         break;
                     case KeyEvent.VK_LEFT:
                         gamemodel.moveNowBlock(-1);
@@ -48,15 +56,16 @@ public class gameController extends JPanel {
                     case KeyEvent.VK_RIGHT:
                         gamemodel.moveNowBlock(+1);
                         break;
+                    // hard drop can be used immediately drop
                     case KeyEvent.VK_SPACE:
-                        gamemodel.dropNowBlock();
+                        gamemodel.dropNowBlockHard();
                         break;
                 }
             }
 
             public void keyReleased(KeyEvent e) {
             }
-        });
+        });  // Listener end
 
         new Thread() {
             @Override
@@ -65,17 +74,11 @@ public class gameController extends JPanel {
                     try {
                         Thread.sleep(1000);
                         gamemodel.dropNowBlock();
-                        //gameview.update();
                     } catch (InterruptedException e) {
                     }
                 }
             }
         }.start();
-    }
-
-    public static void main(String[] args) {
-        gameController gamecontroller = new gameController();
-        gamecontroller.start();
     }
 
 }

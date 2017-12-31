@@ -16,107 +16,66 @@ import javax.swing.JPanel;
  * @author paul
  */
 public class gameView extends JPanel {
-
-    private final Color[] blockColors = {
-        Color.cyan, Color.blue, Color.orange, Color.yellow, Color.green, Color.pink, Color.red
-    };
-
-    private final Point[][][] Tetraminos = {
-        // I-Piece
-        {
-            {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)},
-            {new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3)},
-            {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)},
-            {new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3)}
-        },
-        // J-Piece
-        {
-            {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 0)},
-            {new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(2, 2)},
-            {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(0, 2)},
-            {new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(0, 0)}
-        },
-        // L-Piece
-        {
-            {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 2)},
-            {new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(0, 2)},
-            {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(0, 0)},
-            {new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(2, 0)}
-        },
-        // O-Piece
-        {
-            {new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1)},
-            {new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1)},
-            {new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1)},
-            {new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1)}
-        },
-        // S-Piece
-        {
-            {new Point(1, 0), new Point(2, 0), new Point(0, 1), new Point(1, 1)},
-            {new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2)},
-            {new Point(1, 0), new Point(2, 0), new Point(0, 1), new Point(1, 1)},
-            {new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2)}
-        },
-        // T-Piece
-        {
-            {new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(2, 1)},
-            {new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2)},
-            {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(1, 2)},
-            {new Point(1, 0), new Point(1, 1), new Point(2, 1), new Point(1, 2)}
-        },
-        // Z-Piece
-        {
-            {new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(2, 1)},
-            {new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(0, 2)},
-            {new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(2, 1)},
-            {new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(0, 2)}
-        }
-    };
-
     private Color[][] well;
-    private int score = 1000;
-    JFrame f = new JFrame("Tetris");
+    private int score;
+    public JFrame f = new JFrame("Tetris");
     Point pieceOrigin = new Point(5, 2);
-
+    gameController gamecontroller = new gameController();
+    gameModel gamemodel;
+    Block nowBlock;
+    Block nextBlock;
+    
     public gameView() {
-        //
+
+    }
+    public void init() {
         System.out.println("run view");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(12 * 26 + 10, 26 * 23 + 25);
         f.setVisible(true);
-        this.init();
         f.add(this);
     }
-
+    public void connectModel(gameModel m) {
+        gamemodel = m;
+        well = gamemodel.getWell();
+        pieceOrigin = gamemodel.getNowBlockPoint();
+        nowBlock = gamemodel.getNowBlock();
+        nextBlock = gamemodel.getNextBlock();
+        score = gamemodel.getScore();
+    }
+    
     public void update() {
-        score++;
-        pieceOrigin.y++;
+        nowBlock = gamemodel.getNowBlock();
+        nextBlock = gamemodel.getNextBlock();
+        well = gamemodel.getWell();
+        pieceOrigin = gamemodel.getNowBlockPoint();
+        score = gamemodel.getScore();
         repaint();
     }
-
-    // Creates a border around the well and initializes the dropping piece
-    public void init() {
-        well = new Color[12][24];
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 23; j++) {
-                if (i == 0 || i == 11 || j == 22) {
-                    well[i][j] = Color.GRAY;
-                } else {
-                    well[i][j] = Color.BLACK;
-                }
-            }
-        }
+    public void connectController(gameController c) {
+        c = gamecontroller;
     }
+    // Creates a border around the well and initializes the dropping piece
+
 
     private void drawPiece(Graphics g) {
-        g.setColor(blockColors[0]);
-        for (Point p : Tetraminos[0][0]) {
+        g.setColor(nowBlock.getColor());
+        Point[][] shape = nowBlock.getShape();
+        for (Point p : shape[nowBlock.getRotate()]) {
             g.fillRect((p.x + pieceOrigin.x) * 26,
                     (p.y + pieceOrigin.y) * 26,
                     25, 25);
         }
     }
-
+    private void drawNext(Graphics g) {
+        g.setColor(nextBlock.getColor());
+        Point[][] shape = nextBlock.getShape();
+        for (Point p : shape[nextBlock.getRotate()]) {
+            g.fillRect((p.x + 5) * 26,
+                    (p.y + 0) * 26,
+                    25, 25);
+        }
+    }
     @Override
     public void paintComponent(Graphics g) {
         // Paint the well
@@ -130,9 +89,12 @@ public class gameView extends JPanel {
 
         // Display the score
         g.setColor(Color.WHITE);
+        g.drawString("Next" , 5 * 12, 25);
         g.drawString("" + score, 19 * 12, 25);
+        
         // Draw the currently falling piece
         drawPiece(g);
+        drawNext(g);
     }
 
 }
