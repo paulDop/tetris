@@ -25,6 +25,7 @@ public class gameModel {
     private Color wall;
     private boolean first = true;
     private gameView gameview;
+    private boolean gameover;
 
     public void connectView(gameView v) {
         gameview = v;
@@ -47,7 +48,12 @@ public class gameModel {
     public int getScore() {
         return score;
     }
-
+    
+    public boolean isGameover()
+    {
+        return gameover;
+    }
+    
     private void createNextBlock(int num) {
         nextBlock = new Block(num);
     }
@@ -167,6 +173,14 @@ public class gameModel {
         nowBlock = nextBlock;
         createNextBlock(nextPieces.get(0));
         nextPieces.remove(0);
+        
+        Point[][] shape = nowBlock.getShape();
+        for (Point p : shape[nextBlock.getRotate()]) {
+            if (blockContainer[p.x + NowPiecePoint.x][p.y + NowPiecePoint.y] != background) {
+                gameover = true;
+            }
+        }
+        
     }
 
     public void init() {
@@ -180,6 +194,7 @@ public class gameModel {
                 }
             }
         }
+        gameover = false;
     }
 
     public Color[][] getContainer() {

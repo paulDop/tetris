@@ -44,24 +44,27 @@ public class gameController extends JPanel {
             }
 
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:
-                        gamemodel.turnNowBlock(-1);
-                        break;
-                    // softdrop can be used for speed up
-                    case KeyEvent.VK_DOWN:
-                        gamemodel.dropNowBlock();
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        gamemodel.moveNowBlock(-1);
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        gamemodel.moveNowBlock(+1);
-                        break;
-                    // hard drop can be used immediately drop
-                    case KeyEvent.VK_SPACE:
-                        gamemodel.dropNowBlockHard();
-                        break;
+                if (!gamemodel.isGameover())
+                {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_UP:
+                            gamemodel.turnNowBlock(-1);
+                            break;
+                        // softdrop can be used for speed up
+                        case KeyEvent.VK_DOWN:
+                            gamemodel.dropNowBlock();
+                            break;
+                        case KeyEvent.VK_LEFT:
+                            gamemodel.moveNowBlock(-1);
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            gamemodel.moveNowBlock(+1);
+                            break;
+                        // hard drop can be used immediately drop
+                        case KeyEvent.VK_SPACE:
+                            gamemodel.dropNowBlockHard();
+                            break;
+                    }
                 }
             }
 
@@ -71,7 +74,7 @@ public class gameController extends JPanel {
         new Thread() {
             @Override
             public void run() {
-                while (true) {
+                while (!gamemodel.isGameover()) {
                     try {
                         Thread.sleep(1000);
                         gamemodel.dropNowBlock();
