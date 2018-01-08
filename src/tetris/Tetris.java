@@ -17,7 +17,7 @@ public class Tetris {
 
         //create Model and View
         gameModel myModel = new gameModel();
-        gameView myView = new B10332020();
+        gameView myView = new B10415003();
 
         //tell Model about View. 
         myModel.connectView(myView);	
