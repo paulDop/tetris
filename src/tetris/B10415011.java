@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class B10415011 extends gameView 
 {
@@ -18,6 +19,7 @@ public class B10415011 extends gameView
     private final Color gamewall = Color.BLACK;
     private Block nowBlock;
     private Block nextBlock;
+    public JLabel jLabel = new JLabel("Score:");
     
     public B10415011() 
     {
