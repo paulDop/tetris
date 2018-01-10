@@ -6,6 +6,7 @@
 package tetris;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import javax.swing.JFrame;
@@ -15,7 +16,7 @@ import javax.swing.JFrame;
  * @author paul
  */
 public class B10332020 extends gameView {
-    
+
     private Color[][] blockContainer;
     private int score;
     private Point pieceOrigin = new Point(5, 2);
@@ -25,7 +26,7 @@ public class B10332020 extends gameView {
     private final Color gamewall = Color.GRAY;
     private Block nowBlock;
     private Block nextBlock;
-    
+
     public B10332020() {
         this.gamecontroller = new gameController();
     }
@@ -105,8 +106,14 @@ public class B10332020 extends gameView {
         g.drawString("" + score, 19 * 12, 25);
 
         // Draw the currently falling piece
-        drawPiece(g);
-        drawNext(g);
+        if (gamemodel.isGameover()) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("TimesNewRoman", Font.BOLD, 32));
+            g.drawString("gameover!!", 7 * 12, 200);
+        } else {
+            drawPiece(g);
+            drawNext(g);
+        }
     }
 
 }
