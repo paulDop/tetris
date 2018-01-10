@@ -21,7 +21,7 @@ public class B10415024 extends gameView {
     private gameController gamecontroller;
     private gameModel gamemodel;
     private final Color gamebackground = Color.DARK_GRAY;
-    private final Color gamewall = Color.BLUE;
+    private final Color gamewall = Color.LIGHT_GRAY;
     private Block nowBlock;
     private Block nextBlock;
     
@@ -30,7 +30,7 @@ public class B10415024 extends gameView {
     }
     public void init() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(15 * 21 + 15, 30 * 21 + 15);
+        frame.setSize(15 * 22 + 0, 30 * 22 + 20);
         frame.setVisible(true);
         frame.add(this);
     }
@@ -71,7 +71,7 @@ public class B10415024 extends gameView {
         Point[][] shape = nowBlock.getShape();
         for (Point p : shape[nowBlock.getRotate()]) {
             g.fillRect((p.x + pieceOrigin.x) * 26,
-                    (p.y + pieceOrigin.y) * 26,
+                    (p.y + pieceOrigin.y) * 26+35,
                     25, 25);
         }
     }
@@ -81,7 +81,7 @@ public class B10415024 extends gameView {
         Point[][] shape = nextBlock.getShape();
         for (Point p : shape[nextBlock.getRotate()]) {
             g.fillRect((p.x + 5) * 26,
-                    (p.y + 0) * 26,
+                    (p.y + 0) * 26+35,
                     25, 25);
         }
     }
@@ -89,17 +89,17 @@ public class B10415024 extends gameView {
     @Override
     public void paintComponent(Graphics g) {
         // Paint the blockContainer
-        g.fillRect(0, 0, 26 * 12, 26 * 23);
+        g.fillRect(0, 35, 26 * 12, 26 * 23);
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 23; j++) {
                 g.setColor(blockContainer[i][j]);
-                g.fillRect(26 * i, 26 * j, 25, 25);
+                g.fillRect(26 * i+0, 26 * j+35, 25, 25);
             }
         }
 
         // Display the score
         g.setColor(Color.RED);
-        g.drawString("Next", 5 * 12, 25);
+        g.drawString("Next", 5 * 12, 70);
         g.drawString("" + score, 19 * 12, 25);
 
         // Draw the currently falling piece
