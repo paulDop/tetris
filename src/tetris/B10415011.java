@@ -109,7 +109,15 @@ public class B10415011 extends gameView
             }
         }
         jLabel.setText("Score:\b" + score);
-        drawPiece(g);
-        drawNext(g);
+        if(gamemodel.isGameover())
+        {
+        	g.setColor(Color.RED);
+            g.drawString("Game over.", 150, 20);
+        }
+        else
+        {
+        	drawPiece(g);
+        	drawNext(g);
+        }
     }
 }
