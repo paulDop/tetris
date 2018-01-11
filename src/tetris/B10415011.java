@@ -16,7 +16,7 @@ public class B10415011 extends gameView
     private gameController gamecontroller;
     private gameModel gamemodel;
     private final Color gamebackground = Color.BLACK;
-    private final Color gamewall = Color.BLACK;
+    private final Color gamewall = Color.YELLOW;
     private Block nowBlock;
     private Block nextBlock;
     public JLabel jLabel = new JLabel("Score:");
@@ -74,13 +74,13 @@ public class B10415011 extends gameView
 
     private void drawPiece(Graphics g) 
     {
-        g.setColor(nowBlock.getColor());//setColor：設定繪製顏色
+        g.setColor(nowBlock.getColor());//setColor嚗身摰鼓鋆賡???
         Point[][] shape = nowBlock.getShape();
         for (Point p : shape[nowBlock.getRotate()]) 
         {
             g.fillRect((p.x + pieceOrigin.x) * 26+30,
             			(p.y + pieceOrigin.y) * 26+30,
-            				25, 25);//fillRect：畫出填滿顏色的長方形
+            				25, 25);//fillRect嚗?箏‵皛輸??脩??瑟敶?
         }
     }
 
@@ -109,7 +109,15 @@ public class B10415011 extends gameView
             }
         }
         jLabel.setText("Score:\b" + score);
-        drawPiece(g);
-        drawNext(g);
+        if(gamemodel.isGameover())
+        {
+        	g.setColor(Color.RED);
+            g.drawString("Game over.", 150, 20);
+        }
+        else
+        {
+        	drawPiece(g);
+        	drawNext(g);
+        }
     }
 }
