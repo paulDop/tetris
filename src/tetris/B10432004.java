@@ -29,6 +29,7 @@ public class B10432004 extends gameView implements ActionListener{
     private JButton htp;//how to play buttons
     private JTextArea htpL;//how to play texts
     int times=0;//count the button clicked times
+	boolean showgameover = false;
     
     public B10432004() {
         this.gamecontroller = new gameController();
@@ -56,15 +57,16 @@ public class B10432004 extends gameView implements ActionListener{
         this.add(scoreL2);
         
         htp = new JButton("how to play");
+		htp.setFocusable(false);
         htp.setBounds(350,250,100,60);
         this.add(htp);
         htp.addActionListener(this);
         
         htpL = new JTextArea();
         htpL.setBackground(this.getBackground());
-        htpL.setBounds(350,350,150,200);
+        htpL.setBounds(325,350,150,200);
         htpL.setFont(new Font("Calibri", Font.BOLD, 18));
-        htpL.setText("Use ↑↓←→ \nto Play\n\n↑:Turn\n↓:move down\n←:move left\n→:move right");
+        htpL.setText("Use ↑↓←→ \nto Play\n\n↑:Turn\n↓:move down\n←:move left\n→:move right\nspace:go to ground");
         this.add(htpL);
         htpL.setVisible(false);
 
@@ -94,6 +96,10 @@ public class B10432004 extends gameView implements ActionListener{
         pieceOrigin = gamemodel.getNowBlockPoint();
         score = gamemodel.getScore();
         repaint();
+		if(gamemodel.isGameover()&&!showgameover){
+			showgameover = true;
+			JOptionPane.showMessageDialog(frame, "Game over!");
+		}
     }
 
     public void connectController(gameController c) {
