@@ -93,17 +93,28 @@ public class B10415024 extends gameView {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 23; j++) {
                 g.setColor(blockContainer[i][j]);
-                g.fillRect(26 * i+0, 26 * j+35, 25, 25);
+                g.fillRect(26 * i, 26 * j+35, 25, 25);
             }
         }
 
         // Display the score
-        g.setColor(Color.RED);
-        g.drawString("Next", 5 * 12, 70);
-        g.drawString("" + score, 19 * 12, 25);
-
-        // Draw the currently falling piece
-        drawPiece(g);
-        drawNext(g);
+       g.setColor(Color.BLACK);
+       g.fillRect(0 * 0, 10, 500, 20);
+       
+       g.setColor(Color.WHITE);
+       g.drawString("Score: " + score, 18 * 12, 25);
+       
+       if (gamemodel.isGameover())
+        {
+            g.setColor(Color.RED);
+            g.drawString("GAMEOVER", 7 * 12, 25);
+        }
+        else 
+        {    
+            g.setColor(Color.RED);
+            g.drawString("Next", 5 * 12, 70);
+            drawPiece(g);
+            drawNext(g);
+        }
     }
 }
